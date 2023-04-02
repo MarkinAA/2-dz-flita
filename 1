@@ -1,0 +1,42 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
+incidence_matrix = []
+with open("matrix_of_incendence90.txt") as f:
+    for line in f:
+        row = line.split()
+        incidence_matrix.append(row)
+print(incidence_matrix)
+
+num_rows = len(incidence_matrix)
+num_cols = len(incidence_matrix[0])
+
+t_matrix = [[0 for _ in range(num_rows)] for _ in range(num_cols)]
+
+print (t_matrix)
+# loop through each element in the
+# original matrix and insert it into the
+# transposed matrix
+for i in range(num_rows):
+    for j in range(num_cols):
+        t_matrix[j][i] = incidence_matrix[i][j]
+
+edges = []
+
+for i in range(len(t_matrix)):
+    edge = []
+    for j in range(len(t_matrix[0])):
+        if t_matrix[i][j] == "1":
+            edge.append(j)
+            print(j, end = " ")
+    if len(edge) == 1:
+        edge.append(edge[0])
+    print()
+    edges.append(edge)
+
+#G = nx.Graph()
+G = nx.MultiGraph()
+for e in edges:
+    G.add_edge(*e)
+nx.draw_networkx(G)
+plt.show()
